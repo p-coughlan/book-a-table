@@ -56,3 +56,7 @@ Superuser for Admin Access
 Username: admin
 Email address: admin@booking.com
 Password: reservations
+
+---------------------------------------------------
+Current progress:
+Create success page

@@ -17,9 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from bookings.views import book_table
+# import the view functions from the bookings app
+from bookings.views import book_table, booking_success
 
+# define the URL patterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('book/', book_table, name='book_table'),
+    path('success/', booking_success, name='booking_success'),
 ]
