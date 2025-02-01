@@ -1,12 +1,21 @@
 # This file contains the view functions for the bookings app.
 # import the necessary modules
-from django.shortcuts import render, redirect
-from .forms import BookingForm
-from django.http import HttpResponse
+from django.shortcuts import render, redirect # render is used to render the HTML template
+from .forms import BookingForm # import the BookingForm class from the forms.py file
+from django.http import HttpResponse # import the HttpResponse class to return a simple response
 
-# Create your views here.
-# This view function will handle the form submission and save the booking to the database.
+
+def home(request):
+    """
+    Renders the homepage with a link to the booking form.
+    """
+    return render(request, 'bookings/home.html')
+
+
 def book_table(request):
+    """
+    Handles the booking form submission and saves the booking to the database.
+    """
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
@@ -17,6 +26,9 @@ def book_table(request):
 
     return render(request, 'bookings/book_table.html', {'form': form})
 
-# This view function will display a success message after the booking has been submitted.
+
 def booking_success(request):
+    """
+    Displays a success message after the booking has been submitted.
+    """
     return HttpResponse("Thank you! Your booking has been successfully submitted.")

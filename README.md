@@ -85,3 +85,9 @@ Password: reservations
 ---------------------------------------------------
 Current progress:
 Create success page
+
+---------------------------------------------------
+
+ISSUES:
+Booking form was difficult to use with no guidance on date and time format
+I used placeholders and help text to guide user with the intention of creating a more user friendly UI further down the line
