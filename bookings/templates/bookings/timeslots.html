@@ -28,21 +28,20 @@
 <body>
     <h1>Available Timeslots</h1>
     <div>
-        <!-- Loop through each timeslot and display a button for each -->
+        <!-- Loop through each timeslot in the context -->
         {% for slot in timeslots %}
+            <!-- Check if the timeslot is available -->
             {% if slot.available %}
-                <!-- A clickable button for available times -->
-                <button class="timeslot-button available">
+                <!-- If available, display it as a clickable link that passes the time via a query parameter to the booking form -->
+                <a href="{% url 'book_table' %}?time={{ slot.time }}" class="timeslot-button available">
                     {{ slot.time }}
-                </button>
+                </a>
             {% else %}
-                <!-- A disabled button for unavailable times -->
+                <!-- If not available, show a disabled button -->
                 <button class="timeslot-button unavailable" disabled>
                     {{ slot.time }}
                 </button>
-            <!-- End if statement -->
             {% endif %}
-         <!-- End for loop -->   
         {% endfor %}
     </div>
 </body>

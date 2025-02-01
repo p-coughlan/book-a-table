@@ -14,17 +14,24 @@ def home(request):
 
 def book_table(request):
     """
-    Handles the booking form submission and saves the booking to the database.
+    Displays the booking form and processes the form submission.
     """
+    initial_data = {}
+    # Check if the 'date' parameter is in the URL query parameters
+    if 'time' in request.GET:
+        initial_data['time'] = request.GET.get('time') # set the 'time' field in the form to the value in the URL
+    
+    # Check if the form has been submitted
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('booking_success')
+            return redirect('booking_success') # redirect to the booking success page
     else:
-        form = BookingForm()
+        form = BookingForm(initial=initial_data) # create a new form with the initial data
+    
+    return render(request, 'bookings/book_table.html', {'form': form}) # render the booking form template with the form
 
-    return render(request, 'bookings/book_table.html', {'form': form})
 
 
 def booking_success(request):
