@@ -4,6 +4,28 @@
 
 {% block title %}Available Timeslots{% endblock %}
 
+<!-- Add custom CSS for styling the timeslot buttons -->
+{% block extra_css %}
+<style>
+    .timeslot-button {
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        font-size: 16px;
+    }
+    .available {
+        background-color: green;
+        color: white;
+        cursor: pointer;
+    }
+    .unavailable {
+        background-color: grey;
+        color: white;
+        cursor: not-allowed;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <h1>Available Timeslots</h1>
 <div>

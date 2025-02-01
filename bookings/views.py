@@ -3,6 +3,7 @@
 from django.shortcuts import render, redirect # render is used to render the HTML template
 from .forms import BookingForm # import the BookingForm class from the forms.py file
 from django.http import HttpResponse # import the HttpResponse class to return a simple response
+from django.contrib import messages # import the messages module to display messages to the user
 
 
 def home(request):
@@ -11,26 +12,28 @@ def home(request):
     """
     return render(request, 'bookings/home.html')
 
-
+# After saving the booking, we call messages.success(...) to create a success message.
+# This message will be available in the next view rendered after the redirect.
 def book_table(request):
     """
     Displays the booking form and processes the form submission.
     """
     initial_data = {}
-    # Check if the 'date' parameter is in the URL query parameters
     if 'time' in request.GET:
-        initial_data['time'] = request.GET.get('time') # set the 'time' field in the form to the value in the URL
+        initial_data['time'] = request.GET.get('time')
     
-    # Check if the form has been submitted
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('booking_success') # redirect to the booking success page
+            booking = form.save()
+            # Add a success message using the booking details
+            messages.success(request, f'Booking for {booking.date} at {booking.time} confirmed!')
+            return redirect('booking_success')
     else:
-        form = BookingForm(initial=initial_data) # create a new form with the initial data
+        form = BookingForm(initial=initial_data)
     
-    return render(request, 'bookings/book_table.html', {'form': form}) # render the booking form template with the form
+    return render(request, 'bookings/book_table.html', {'form': form})
+
 
 
 
