@@ -51,6 +51,31 @@ Created a superuser to access the admin interface:
 python manage.py createsuperuser
 Access the admin panel at http://127.0.0.1:8000/admin/ using the superuser credentials.
 
+11. Created the bookings App:
+Generated a new Django app and added it to INSTALLED_APPS.
+
+12. Defined the Booking Model:
+Added a model in bookings/models.py to store reservation details.
+
+13. Registered the Booking Model in Admin:
+Updated bookings/admin.py and created a superuser to manage bookings via Django’s admin interface.
+
+13. Created a Booking Form:
+ - Added bookings/forms.py with a BookingForm that includes fields for name, email, phone, date, time, and guests.
+ - Customized the date and time fields with specific input formats (dd-mm-yyyy and HH:MM), placeholders, and help text.
+
+14. Built the Booking View:
+Added a view in bookings/views.py to handle displaying the form and saving the booking.
+
+13. Created a Template:
+Set up bookings/templates/bookings/book_table.html to render the booking form.
+
+14. Configured URLs:
+Updated restaurant_booking/urls.py with paths for the booking form (/book/) and a simple success page (/success/).
+
+15. Implemented a Success Page:
+Created a basic view that confirms a successful booking after form submission.
+
 ---------------------------------------------------
 Superuser for Admin Access
 Username: admin
