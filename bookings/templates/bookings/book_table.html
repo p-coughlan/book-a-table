@@ -1,16 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book a Table</title>
-</head>
-<body>
-    <h1>Book a Table</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
-</body>
-</html>
+<!-- This is the template for the form to book a table. -->
+<!-- It extends the base template and overrides the title and content blocks. -->
+{% extends 'bookings/base.html' %}
+
+{% block title %}Book a Table{% endblock %}
+
+{% block content %}
+<h1>Book a Table</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}

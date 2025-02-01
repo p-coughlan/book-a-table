@@ -1,48 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Available Timeslots</title>
-    <!-- Add some CSS to style the timeslot buttons -->
-    <!-- This template shows each timeslot as a button. Available timeslots are styled in green and clickable, while unavailable ones appear grey and are disabled. -->
-    <style>
-        .timeslot-button {
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            font-size: 16px;
-        }
-        .available {
-            background-color: green;
-            color: white;
-            cursor: pointer;
-        }
-        .unavailable {
-            background-color: grey;
-            color: white;
-            cursor: not-allowed;
-        }
-    </style>
-</head>
-<body>
-    <h1>Available Timeslots</h1>
-    <div>
-        <!-- Loop through each timeslot in the context -->
-        {% for slot in timeslots %}
-            <!-- Check if the timeslot is available -->
-            {% if slot.available %}
-                <!-- If available, display it as a clickable link that passes the time via a query parameter to the booking form -->
-                <a href="{% url 'book_table' %}?time={{ slot.time }}" class="timeslot-button available">
-                    {{ slot.time }}
-                </a>
-            {% else %}
-                <!-- If not available, show a disabled button -->
-                <button class="timeslot-button unavailable" disabled>
-                    {{ slot.time }}
-                </button>
-            {% endif %}
-        {% endfor %}
-    </div>
-</body>
-</html>
+<!-- This template displays the available timeslots for booking a table -->
+<!-- It extends the base template and overrides the title and content blocks -->
+{% extends 'bookings/base.html' %}
+
+{% block title %}Available Timeslots{% endblock %}
+
+{% block content %}
+<h1>Available Timeslots</h1>
+<div>
+    <!-- Loop through each timeslot -->
+    {% for slot in timeslots %}
+        {% if slot.available %}
+            <!-- If available, display as a clickable link that sends the selected time -->
+            <a href="{% url 'book_table' %}?time={{ slot.time }}" class="timeslot-button available">
+                {{ slot.time }}
+            </a>
+        {% else %}
+            <!-- If unavailable, display a disabled button -->
+            <button class="timeslot-button unavailable" disabled>
+                {{ slot.time }}
+            </button>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

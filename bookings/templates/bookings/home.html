@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Booking System</title>
-</head>
-<body>
-    <h1>Welcome to Our Restaurant Booking System</h1>
-    <p>
-        Ready to reserve your table? Click <a href="{% url 'book_table' %}">here</a> to book now.
-    </p>
-</body>
-</html>
+<!-- This is the home page of the restaurant booking system. -->
+<!-- It extends the base template and overrides the title and content blocks. -->
+{% extends 'bookings/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Welcome to Our Restaurant Booking System</h1>
+<p>
+    Ready to reserve your table? Click <a href="{% url 'book_table' %}">here</a> to book now.
+</p>
+{% endblock %}
