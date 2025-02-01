@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 # import the view functions from the bookings app
-from bookings.views import home, book_table, booking_success
+from bookings.views import home, book_table, booking_success, available_timeslots
 
 # define the URL patterns
 urlpatterns = [
@@ -26,4 +26,5 @@ urlpatterns = [
     path('', home, name='home'),
     path('book/', book_table, name='book_table'),
     path('success/', booking_success, name='booking_success'),
+    path('timeslots/', available_timeslots, name='available_timeslots'),
 ]

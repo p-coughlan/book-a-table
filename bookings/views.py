@@ -32,3 +32,18 @@ def booking_success(request):
     Displays a success message after the booking has been submitted.
     """
     return HttpResponse("Thank you! Your booking has been successfully submitted.")
+
+def available_timeslots(request):
+    """
+    Displays a simple visual representation of available timeslots.
+    For demonstration, timeslots are hardcoded.
+    """
+    # Hardcoded list of timeslots for demonstration purposes.
+    timeslots = [
+        {'time': '18:00', 'available': True},
+        {'time': '18:30', 'available': False},
+        {'time': '19:00', 'available': True},
+        {'time': '19:30', 'available': True},
+        {'time': '20:00', 'available': False},
+    ]
+    return render(request, 'bookings/timeslots.html', {'timeslots': timeslots})

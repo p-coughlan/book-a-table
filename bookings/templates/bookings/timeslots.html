@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Timeslots</title>
+    <!-- Add some CSS to style the timeslot buttons -->
+    <!-- This template shows each timeslot as a button. Available timeslots are styled in green and clickable, while unavailable ones appear grey and are disabled. -->
+    <style>
+        .timeslot-button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            font-size: 16px;
+        }
+        .available {
+            background-color: green;
+            color: white;
+            cursor: pointer;
+        }
+        .unavailable {
+            background-color: grey;
+            color: white;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Available Timeslots</h1>
+    <div>
+        <!-- Loop through each timeslot and display a button for each -->
+        {% for slot in timeslots %}
+            {% if slot.available %}
+                <!-- A clickable button for available times -->
+                <button class="timeslot-button available">
+                    {{ slot.time }}
+                </button>
+            {% else %}
+                <!-- A disabled button for unavailable times -->
+                <button class="timeslot-button unavailable" disabled>
+                    {{ slot.time }}
+                </button>
+            <!-- End if statement -->
+            {% endif %}
+         <!-- End for loop -->   
+        {% endfor %}
+    </div>
+</body>
+</html>
