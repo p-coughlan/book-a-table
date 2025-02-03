@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Allows individual pages to set their own page title -->
         <title>{% block title %}Restaurant Booking System{% endblock %}</title>
+        <!-- Link for Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
         <style>
             /* Basic styling for navigation */
             nav {
@@ -22,10 +25,12 @@
                 background-color: #ddd;
                 color: black;
             }
+        
             /* Container styling */
             .container {
                 padding: 20px;
             }
+        
             /* Styling for messages displayed using Django's messages framework */
             .messages {
                 list-style: none;
@@ -37,7 +42,52 @@
                 padding: 10px;
                 margin-bottom: 10px;
             }
+        
+            /* Hero section styling using a traditional serif font */
+            .hero {
+                background: url('/static/images/hero.jpg') no-repeat center center;
+                background-size: cover;
+                color: white;
+                text-align: center;
+                padding: 100px 20px;
+                font-family: 'Playfair Display', serif;
+            }
+            .hero h1 {
+                font-size: 3em;
+                margin: 0;
+            }
+        
+            /* Bar section styling with background image */
+            .bar-section {
+                background: url('/static/images/bar.jpg') no-repeat center center;
+                background-size: cover;
+                color: white;
+                padding: 60px 20px;
+                text-align: center;
+                font-family: 'Roboto', sans-serif;
+            }
+        
+            /* General section styling (reduces white space) */
+            .section {
+                padding: 40px 20px;
+            }
+        
+            /* Menu links styling */
+            .menu-links a {
+                display: inline-block;
+                margin: 10px;
+                padding: 10px 20px;
+                background-color: #333;
+                color: white;
+                text-decoration: none;
+            }
+            
+            /* Apply modern font for general content and navigation */
+            body, nav, .container {
+                font-family: 'Roboto', sans-serif;
+            }
         </style>
+        
         <!-- Block for additional page-specific CSS -->
         {% block extra_css %}{% endblock %}
     </head>
