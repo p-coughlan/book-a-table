@@ -5,6 +5,8 @@ from .forms import BookingForm # import the BookingForm class from the forms.py 
 from django.http import HttpResponse # import the HttpResponse class to return a simple response
 from django.contrib import messages # import the messages module to display messages to the user
 from .models import Booking # import the Booking model
+from django.contrib.admin.views.decorators import staff_member_required # import the staff_member_required decorator
+
 
 def home(request):
     """
@@ -58,11 +60,12 @@ def available_timeslots(request):
     ]
     return render(request, 'bookings/timeslots.html', {'timeslots': timeslots})
 
+@staff_member_required # Only staff users can access this view
 def booking_list(request):
     """
-    Displays a list of all bookings.
+    Displays a list of all bookings. Accessible only to staff users.
     """
-    # Retrieve all bookings, ordered by newest first
-    bookings = Booking.objects.all().order_by('-id') # -id orders by descending ID
-    return render(request, 'bookings/booking_list.html', {'bookings': bookings}) # Pass the bookings to the template
+    bookings = Booking.objects.all().order_by('-id')
+    return render(request, 'bookings/booking_list.html', {'bookings': bookings})
+
 
