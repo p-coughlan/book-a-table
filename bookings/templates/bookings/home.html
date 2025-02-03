@@ -1,12 +1,65 @@
-<!-- This is the home page of the restaurant booking system. -->
-<!-- It extends the base template and overrides the title and content blocks. -->
 {% extends 'bookings/base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Welcome to COUGHLAN'S{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Hero section with a background image */
+    .hero {
+        background: url('/static/images/hero.jpg') no-repeat center center;
+        background-size: cover;
+        color: white;
+        text-align: center;
+        padding: 100px 20px;
+    }
+    .hero h1 {
+        font-size: 3em;
+        margin: 0;
+    }
+    /* Section styling */
+    .section {
+        padding: 40px 20px;
+    }
+    /* Menu links styling */
+    .menu-links a {
+        display: inline-block;
+        margin: 10px;
+        padding: 10px 20px;
+        background-color: #333;
+        color: white;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<h1>Welcome to Our Restaurant Booking System</h1>
-<p>
-    Ready to reserve your table? Click <a href="{% url 'book_table' %}">here</a> to book now.
-</p>
+<!-- Hero Section -->
+<div class="hero">
+    <h1>Welcome to COUGHLAN'S</h1>
+    <p>Experience exquisite dining with seasonal menus and a vibrant bar atmosphere.</p>
+</div>
+
+<!-- Ethos Section -->
+<div class="section">
+    <h2>Our Ethos</h2>
+    <p>
+        At Coughlan's, we believe in sustainable, locally sourced ingredients that celebrate the changing seasons.
+        Our menus evolve with nature, offering fresh, innovative dishes that highlight the best of local produce.
+    </p>
+</div>
+
+<!-- Sample Menus Section -->
+<div class="section menu-links">
+    <h2>Sample Menus</h2>
+    <a href="{% url 'lunch_menu' %}">Lunch Menu</a>
+    <a href="{% url 'dinner_menu' %}">Dinner Menu</a>
+</div>
+
+<!-- Bar Section -->
+<div class="section">
+    <h2>The Bar</h2>
+    <p>
+        Enjoy our curated selection of drinks at the bar, perfect for pre-dinner cocktails or a relaxing nightcap.
+    </p>
+</div>
 {% endblock %}
