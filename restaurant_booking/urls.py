@@ -27,4 +27,6 @@ urlpatterns = [
     path('book/', book_table, name='book_table'),
     path('success/', booking_success, name='booking_success'),
     path('timeslots/', available_timeslots, name='available_timeslots'),
+    # Updated URL pattern for booking success with booking_id
+    path('success/<int:booking_id>/', booking_success, name='booking_success'),
 ]

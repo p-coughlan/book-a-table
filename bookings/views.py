@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect # render is used to render the HTM
 from .forms import BookingForm # import the BookingForm class from the forms.py file
 from django.http import HttpResponse # import the HttpResponse class to return a simple response
 from django.contrib import messages # import the messages module to display messages to the user
-
+from .models import Booking # import the Booking model
 
 def home(request):
     """
@@ -36,11 +36,12 @@ def book_table(request):
     return render(request, 'bookings/book_table.html', {'form': form})
 
 
-def booking_success(request):
+def booking_success(request, booking_id):
     """
-    Displays a success message after the booking has been submitted.
+    Displays the booking success page with booking details.
     """
-    return HttpResponse("Thank you! Your booking has been successfully submitted.")
+    booking = Booking.objects.get(id=booking_id)
+    return render(request, 'bookings/booking_success.html', {'booking': booking})
 
 def available_timeslots(request):
     """
