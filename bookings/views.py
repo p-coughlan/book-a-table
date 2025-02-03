@@ -6,6 +6,7 @@ from django.http import HttpResponse # import the HttpResponse class to return a
 from django.contrib import messages # import the messages module to display messages to the user
 from .models import Booking # import the Booking model
 from django.contrib.admin.views.decorators import staff_member_required # import the staff_member_required decorator
+from django.core.mail import send_mail # import the send_mail function to send emails
 
 
 def home(request):
@@ -19,6 +20,8 @@ def home(request):
 def book_table(request):
     """
     Displays the booking form and processes the form submission.
+    If the form is valid, the booking is saved to the database and a success message is displayed.
+    Sends a confirmation email to the customer.
     """
     initial_data = {}
     if 'time' in request.GET:
@@ -30,12 +33,27 @@ def book_table(request):
             booking = form.save()
             # Add a success message using the booking details
             messages.success(request, f'Booking for {booking.date} at {booking.time} confirmed!')
+
+            # Send an email to the customer
+            send_mail(
+                subject="Your Booking Confirmation",
+                message=(
+                    f"Dear {booking.name},\n\n"
+                    f"Your booking for {booking.date} at {booking.time} is confirmed.\n"
+                    "We look forward to welcoming you at COUGHLAN'S!\n\n"
+                    "Thank you."
+                ),
+                from_email="noreply@coughlans.com",
+                recipient_list=[booking.email], # list containing the recipient's email address
+                fail_silently=False,
+            )
             # Redirect to success page with the booking's ID included in the URL
             return redirect('booking_success', booking_id=booking.id)
     else:
         form = BookingForm(initial=initial_data)
     
     return render(request, 'bookings/book_table.html', {'form': form})
+
 
 
 def booking_success(request, booking_id):
