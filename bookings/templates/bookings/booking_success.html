@@ -1,0 +1,17 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %}Booking Confirmed{% endblock %}
+
+{% block content %}
+<h1>Booking Confirmed!</h1>
+<p>Thank you for your booking. Here are your booking details:</p>
+<ul>
+    <li><strong>Name:</strong> {{ booking.name }}</li>
+    <li><strong>Email:</strong> {{ booking.email }}</li>
+    <li><strong>Phone:</strong> {{ booking.phone }}</li>
+    <li><strong>Date:</strong> {{ booking.date }}</li>
+    <li><strong>Time:</strong> {{ booking.time }}</li>
+    <li><strong>Number of Guests:</strong> {{ booking.guests }}</li>
+</ul>
+<p>We look forward to welcoming you!</p>
+{% endblock %}
