@@ -84,7 +84,7 @@ Password: reservations
 
 ---------------------------------------------------
 Current progress:
-Create success page
+Display messages in the Base Template
 
 ---------------------------------------------------
 

@@ -28,13 +28,12 @@ def book_table(request):
             booking = form.save()
             # Add a success message using the booking details
             messages.success(request, f'Booking for {booking.date} at {booking.time} confirmed!')
-            return redirect('booking_success')
+            # Redirect to success page with the booking's ID included in the URL
+            return redirect('booking_success', booking_id=booking.id)
     else:
         form = BookingForm(initial=initial_data)
     
     return render(request, 'bookings/book_table.html', {'form': form})
-
-
 
 
 def booking_success(request):
