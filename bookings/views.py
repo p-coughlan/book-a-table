@@ -57,3 +57,12 @@ def available_timeslots(request):
         {'time': '20:00', 'available': False},
     ]
     return render(request, 'bookings/timeslots.html', {'timeslots': timeslots})
+
+def booking_list(request):
+    """
+    Displays a list of all bookings.
+    """
+    # Retrieve all bookings, ordered by newest first
+    bookings = Booking.objects.all().order_by('-id') # -id orders by descending ID
+    return render(request, 'bookings/booking_list.html', {'bookings': bookings}) # Pass the bookings to the template
+

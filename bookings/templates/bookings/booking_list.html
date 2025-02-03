@@ -1,0 +1,22 @@
+<!-- This template is used to display all bookings in the database. -->
+<!-- It iterates over the bookings context variable and displays each booking's details. -->
+<!-- If there are no bookings, it shows a message.-->
+{% extends 'bookings/base.html' %}
+
+{% block title %}All Bookings{% endblock %}
+
+{% block content %}
+<h1>All Bookings</h1>
+{% if bookings %}
+    <ul>
+        {% for booking in bookings %}
+            <li>
+                <strong>{{ booking.name }}</strong> - {{ booking.date }} at {{ booking.time }} 
+                ({{ booking.guests }} guests)
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No bookings available.</p>
+{% endif %}
+{% endblock %}
