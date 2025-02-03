@@ -1,0 +1,20 @@
+<!-- This template is used to display the cancel booking form. -->
+<!-- It extends the base template for consistent styling and navigation. -->
+<!-- It displays the booking details and asks the user to confirm their email address to cancel the booking. -->
+{% extends 'bookings/base.html' %}
+
+{% block title %}Cancel Booking{% endblock %}
+
+{% block content %}
+<h1>Cancel Booking</h1>
+<p>
+    Booking for <strong>{{ booking.date }}</strong> at <strong>{{ booking.time }}</strong> by <strong>{{ booking.name }}</strong>.
+</p>
+<p>If you wish to cancel your booking, please confirm your email address:</p>
+<form method="POST">
+    {% csrf_token %}
+    <label for="email">Email:</label>
+    <input type="email" name="email" required>
+    <button type="submit">Cancel Booking</button>
+</form>
+{% endblock %}

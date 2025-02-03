@@ -7,6 +7,8 @@ from django.contrib import messages # import the messages module to display mess
 from .models import Booking # import the Booking model
 from django.contrib.admin.views.decorators import staff_member_required # import the staff_member_required decorator
 from django.core.mail import send_mail # import the send_mail function to send emails
+from django.shortcuts import render, redirect, get_object_or_404 # import the get_object_or_404 function to get an object by ID or return a 404 error
+
 
 
 def home(request):
@@ -85,5 +87,62 @@ def booking_list(request):
     """
     bookings = Booking.objects.all().order_by('-id')
     return render(request, 'bookings/booking_list.html', {'bookings': bookings})
+
+def cancel_booking(request, booking_id):
+    """
+    Allows a customer to cancel a booking if they provide the correct email.
+    It fetches the booking by ID.
+    On a POST request it compares the submitted email with the booking's email.
+    If the emails match, the booking is deleted and a success message is displayed, otherwise an error message is shown.
+    On a GET request, it renders the cancellation confirmation page.
+    """
+    # Retrieve the booking or return a 404 if not found.
+    booking = get_object_or_404(Booking, id=booking_id)
+    
+    if request.method == 'POST':
+        # Retrieve the email entered by the user in the cancellation form.
+        email_input = request.POST.get('email')
+        
+        # Check if the provided email matches the booking's email (case-insensitive)
+        if email_input and email_input.lower() == booking.email.lower():
+            # Delete the booking from the database.
+            booking.delete()
+            messages.success(request, "Your booking has been cancelled.")
+            return redirect('home')
+        else:
+            messages.error(request, "Email address does not match our records. Cancellation failed.")
+    
+    # Render the cancellation confirmation page.
+    return render(request, 'bookings/cancel_booking.html', {'booking': booking})
+
+def update_booking(request, booking_id):
+    """
+    Allows a customer to update their booking details after confirming their email.
+    It fetches the booking by ID.
+    On a POST request it compares the submitted email with the booking's email.
+    If the emails match, the booking is updated and a success message is displayed, otherwise an error message is shown.
+    On a GET request, it renders the update booking form with the existing booking data.
+    """
+    booking = get_object_or_404(Booking, id=booking_id)
+    
+    if request.method == 'POST':
+        # Retrieve the confirmation email from the form.
+        confirm_email = request.POST.get('confirm_email')
+        if confirm_email and confirm_email.lower() == booking.email.lower():
+            # Create a form instance with the POST data and the existing booking.
+            form = BookingForm(request.POST, instance=booking)
+            if form.is_valid():
+                updated_booking = form.save()
+                messages.success(request, "Your booking has been updated!")
+                return redirect('booking_success', booking_id=updated_booking.id)
+        else:
+            messages.error(request, "Email address does not match our records. Update failed.")
+            # Create a form instance with the POST data to preserve entered data.
+            form = BookingForm(request.POST, instance=booking)
+    else:
+        # For GET requests, prepopulate the form with the existing booking data.
+        form = BookingForm(instance=booking)
+    
+    return render(request, 'bookings/update_booking.html', {'form': form, 'booking': booking})
 
 

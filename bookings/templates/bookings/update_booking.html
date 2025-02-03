@@ -1,0 +1,22 @@
+<!-- Template to update a booking -->
+<!-- Show the current booking details and a form to update the booking -->
+
+{% extends 'bookings/base.html' %}
+
+{% block title %}Update Booking{% endblock %}
+
+{% block content %}
+<h1>Update Booking</h1>
+<p>
+    Booking for <strong>{{ booking.date }}</strong> at <strong>{{ booking.time }}</strong> by <strong>{{ booking.name }}</strong>.
+</p>
+<form method="POST">
+    {% csrf_token %}
+    <!-- Display the booking form fields for update -->
+    {{ form.as_p }}
+    <!-- Field to confirm the customer's email -->
+    <label for="confirm_email">Confirm your email:</label>
+    <input type="email" name="confirm_email" required>
+    <button type="submit">Update Booking</button>
+</form>
+{% endblock %}
