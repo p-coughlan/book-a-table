@@ -11,64 +11,66 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- Custom Styles -->
+    <!-- Custom Global Styles -->
     <style>
-      /* Reset default margins and paddings */
+      /* Reset margins/padding and apply full-size dimensions */
       html, body {
-          margin: 0;
-          padding: 0;
-          width: 100%;
-          height: 100%;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
       }
       
-      /* Apply the hero background image on all pages */
+      /* Global background image with fixed positioning */
       body {
-          background: url('/static/images/hero.jpg') no-repeat center center fixed;
-          background-size: cover;
-          font-family: 'Roboto', sans-serif;
+        background: url('/static/images/hero.jpg') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Roboto', sans-serif;
+        /* Establish flex layout for the page */
+        display: flex;
+        flex-direction: column;
       }
       
-      /* Optional: If you want the hero image to be darkened on all pages, you can add an overlay using a pseudo-element on the body */
+      /* Dark overlay for the background image */
       body::before {
-          content: "";
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
-          z-index: -1; /* Place it behind all content */
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+        z-index: -1; /* Ensure the overlay is behind page content */
       }
       
-      /* Navigation styling (using Bootstrap classes mostly) */
-      nav.navbar {
-          margin-bottom: 0;
+      /* Flex layout: Make the main content area expand */
+      .content-wrapper {
+        flex: 1;
       }
       
       /* Container styling */
       .container {
-          padding: 20px;
+        padding: 20px;
       }
       
       /* Styling for Django messages */
       .messages {
-          list-style: none;
-          padding: 0;
+        list-style: none;
+        padding: 0;
       }
       .messages li {
-          background-color: #e0ffe0;
-          border: 1px solid #b2ffb2;
-          padding: 10px;
-          margin-bottom: 10px;
+        background-color: #e0ffe0;
+        border: 1px solid #b2ffb2;
+        padding: 10px;
+        margin-bottom: 10px;
       }
-      
-      /* Additional custom styling for content sections can go here */
     </style>
     
+    <!-- Block for additional page-specific CSS -->
     {% block extra_css %}{% endblock %}
   </head>
   <body>
-    <!-- Bootstrap Navbar for navigation -->
+    <!-- Fixed Navbar at the top using Bootstrap classes -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="{% url 'home' %}">Coughlan's</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -85,26 +87,29 @@
       </div>
     </nav>
     
-    <!-- Display Django messages if any -->
-    {% if messages %}
+    <!-- Main content wrapper that expands to fill available space -->
+    <div class="content-wrapper">
+      <!-- Display Django messages if any -->
+      {% if messages %}
+        <div class="container mt-3">
+          <ul class="messages">
+            {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                {{ message }}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      
+      <!-- Main content container -->
       <div class="container mt-3">
-        <ul class="messages">
-          {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-              {{ message }}
-            </li>
-          {% endfor %}
-        </ul>
+        {% block content %}
+        {% endblock %}
       </div>
-    {% endif %}
-    
-    <!-- Main content container -->
-    <div class="container mt-3">
-      {% block content %}
-      {% endblock %}
     </div>
     
-    <!-- Footer with Social Media Links -->
+    <!-- Footer fixed to the bottom of the page -->
     <footer class="bg-dark text-white text-center py-3">
       <p>Follow us on:
          <a href="#" class="text-white">Facebook</a> |
