@@ -1,126 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Allows individual pages to set their own page title -->
-        <title>{% block title %}Restaurant Booking System{% endblock %}</title>
-        <!-- Link for Google Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-
-        <style>
-            /* Basic styling for navigation */
-            nav {
-                background-color: #333;
-                overflow: hidden;
-            }
-            nav a {
-                float: left;
-                color: #f2f2f2;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-            nav a:hover {
-                background-color: #ddd;
-                color: black;
-            }
-        
-            /* Container styling */
-            .container {
-                padding: 20px;
-            }
-        
-            /* Styling for messages displayed using Django's messages framework */
-            .messages {
-                list-style: none;
-                padding: 0;
-            }
-            .messages li {
-                background-color: #e0ffe0;
-                border: 1px solid #b2ffb2;
-                padding: 10px;
-                margin-bottom: 10px;
-            }
-        
-            /* Hero section styling using a traditional serif font */
-            .hero {
-                background: url('/static/images/hero.jpg') no-repeat center center;
-                background-size: cover;
-                color: white;
-                text-align: center;
-                padding: 100px 20px;
-                font-family: 'Playfair Display', serif;
-            }
-            .hero h1 {
-                font-size: 3em;
-                margin: 0;
-            }
-        
-            /* Bar section styling with background image */
-            .bar-section {
-                background: url('/static/images/bar.jpg') no-repeat center center;
-                background-size: cover;
-                color: white;
-                padding: 60px 20px;
-                text-align: center;
-                font-family: 'Roboto', sans-serif;
-            }
-        
-            /* General section styling (reduces white space) */
-            .section {
-                padding: 40px 20px;
-            }
-        
-            /* Menu links styling */
-            .menu-links a {
-                display: inline-block;
-                margin: 10px;
-                padding: 10px 20px;
-                background-color: #333;
-                color: white;
-                text-decoration: none;
-            }
-            
-            /* Apply modern font for general content and navigation */
-            body, nav, .container {
-                font-family: 'Roboto', sans-serif;
-            }
-        </style>
-        
-        <!-- Block for additional page-specific CSS -->
-        {% block extra_css %}{% endblock %}
-    </head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Restaurant Booking System{% endblock %}</title>
     
-<body>
-    <!-- Navigation bar - Provides links to Home, Book a Table, and Timeslots using Django's URL template tag.-->
-    <nav>
-        <!-- Link to the homepage -->
-        <a href="{% url 'home' %}">Home</a>
-        <!-- Link to the booking form -->
-        <a href="{% url 'book_table' %}">Book a Table</a>
-        <!-- Link to the timeslots view -->
-        <a href="{% url 'available_timeslots' %}">Timeslots</a>
-        <!-- Link to view bookings -->
-        <a href="{% url 'booking_list' %}">View Bookings</a>
+    <!-- Bootstrap CSS (via CDN) -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+      /* Reset default margins and paddings */
+      html, body {
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+      }
+      
+      /* Apply the hero background image on all pages */
+      body {
+          background: url('/static/images/hero.jpg') no-repeat center center fixed;
+          background-size: cover;
+          font-family: 'Roboto', sans-serif;
+      }
+      
+      /* Optional: If you want the hero image to be darkened on all pages, you can add an overlay using a pseudo-element on the body */
+      body::before {
+          content: "";
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+          z-index: -1; /* Place it behind all content */
+      }
+      
+      /* Navigation styling (using Bootstrap classes mostly) */
+      nav.navbar {
+          margin-bottom: 0;
+      }
+      
+      /* Container styling */
+      .container {
+          padding: 20px;
+      }
+      
+      /* Styling for Django messages */
+      .messages {
+          list-style: none;
+          padding: 0;
+      }
+      .messages li {
+          background-color: #e0ffe0;
+          border: 1px solid #b2ffb2;
+          padding: 10px;
+          margin-bottom: 10px;
+      }
+      
+      /* Additional custom styling for content sections can go here */
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <!-- Bootstrap Navbar for navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="{% url 'home' %}">Coughlan's</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'book_table' %}">Book a Table</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'available_timeslots' %}">Timeslots</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'booking_list' %}">View Bookings</a></li>
+        </ul>
+      </div>
     </nav>
-
+    
     <!-- Display Django messages if any -->
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-            {{ message }}
-        </li>
-    {% endfor %}
-</ul>
-{% endif %}
-
+    {% if messages %}
+      <div class="container mt-3">
+        <ul class="messages">
+          {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+              {{ message }}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    
     <!-- Main content container -->
-    <div class="container">
-        <!-- Content block that can be overridden by child templates - is where each page's unique content will be inserted. -->
-        {% block content %}
-        {% endblock %}
+    <div class="container mt-3">
+      {% block content %}
+      {% endblock %}
     </div>
-</body>
+    
+    <!-- Footer with Social Media Links -->
+    <footer class="bg-dark text-white text-center py-3">
+      <p>Follow us on:
+         <a href="#" class="text-white">Facebook</a> |
+         <a href="#" class="text-white">Twitter</a> |
+         <a href="#" class="text-white">Instagram</a>
+      </p>
+    </footer>
+    
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    {% block extra_js %}{% endblock %}
+  </body>
 </html>

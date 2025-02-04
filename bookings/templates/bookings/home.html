@@ -1,66 +1,71 @@
 {% extends 'bookings/base.html' %}
 
-{% block title %}Welcome to COUGHLAN'S{% endblock %}
+{% block title %}Welcome to Coughlan's{% endblock %}
 
 {% block extra_css %}
 <style>
-    /* Hero section with a background image */
-    .hero {
-        background: url('/static/images/hero.jpg') no-repeat center center;
-        background-size: cover;
-        color: white;
-        text-align: center;
-        padding: 100px 20px;
-    }
-    .hero h1 {
-        font-size: 3em;
-        margin: 0;
-    }
-    /* Section styling */
-    .section {
-        padding: 40px 20px;
-    }
-    /* Menu links styling */
-    .menu-links a {
-        display: inline-block;
-        margin: 10px;
-        padding: 10px 20px;
-        background-color: #333;
-        color: white;
-        text-decoration: none;
-    }
+/* Full-screen hero section without direct opacity on the container */
+.hero {
+  position: relative;
+  height: 100vh; /* Full viewport height */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  /* Ensure no opacity is set on .hero itself */
+}
+
+/* Dark overlay applied via a pseudo-element */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+/* Hero content with off-white text */
+.hero-content {
+  position: relative;
+  z-index: 2; /* Ensure this is above the overlay */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  padding: 0 20px;
+  color: #f8f8f8; /* Off white color for the text */
+}
+
+.hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+}
+
 </style>
 {% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<div class="hero" style="background: url('/static/images/hero.jpg') no-repeat center center; background-size: cover;">
+<section class="hero">
+  <div class="hero-content">
     <h1>Welcome to Coughlan's</h1>
-    <p>Experience exquisite dining with seasonal menus and a vibrant bar atmosphere.</p>
-</div>
-
-<!-- Ethos Section -->
-<div class="section">
-    <h2>Our Ethos</h2>
-    <p>
-        At Coughlan's, we believe in sustainable, locally sourced ingredients that celebrate the changing seasons.
-        Our menus evolve with nature, offering fresh, innovative dishes that highlight the best of local produce.
-    </p>
-</div>
-
-<!-- Sample Menus Section -->
-<div class="section menu-links">
-    <h2>Sample Menus</h2>
-    <a href="{% url 'lunch_menu' %}">Lunch Menu</a>
-    <a href="{% url 'dinner_menu' %}">Dinner Menu</a>
-</div>
-
-<!-- Bar Section with Background Image -->
-<div class="bar-section">
-    <h2>The Bar</h2>
-    <p>
-        Enjoy our curated selection of drinks at the bar, perfect for pre-dinner cocktails or a relaxing nightcap.
-    </p>
-</div>
-
+    <p>Experience exquisite seasonal menus and a vibrant bar atmosphere.</p>
+    <!-- Sample Menu Buttons -->
+    <div>
+      <a href="{% url 'lunch_menu' %}" class="btn btn-outline-light mx-2">Lunch Menu</a>
+      <a href="{% url 'dinner_menu' %}" class="btn btn-outline-light mx-2">Dinner Menu</a>
+    </div>
+  </div>
+</section>
 {% endblock %}
