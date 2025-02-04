@@ -1,14 +1,71 @@
-<!-- This is the template for the form to book a table. -->
-<!-- It extends the base template and overrides the title and content blocks. -->
 {% extends 'bookings/base.html' %}
 
 {% block title %}Book a Table{% endblock %}
 
+{% block extra_css %}
+<style>
+  /* Booking form container: transparent background and centered */
+  .booking-form-container {
+    max-width: 500px;
+    margin: 80px auto;
+    background: transparent; /* Invisible container */
+    padding: 30px;
+  }
+  .booking-form-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #f8f8f8; /* Off white text */
+  }
+  /* Each form-group displays label and input side by side */
+  .booking-form-container .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  /* Labels are left-aligned, take 40% of the width */
+  .booking-form-container label {
+    flex: 0 0 40%;
+    text-align: left;
+    color: #f8f8f8; /* Off white text */
+    margin-bottom: 0;
+    font-weight: bold;
+  }
+  /* Input fields take the remaining 60% */
+  .booking-form-container .form-control {
+    flex: 0 0 60%;
+    max-width: 60%;
+  }
+  /* Capsule-shaped, olive green submit button */
+  .booking-form-container button[type="submit"] {
+    display: block;
+    width: 100%;
+    background-color: #556B2F; /* Olive green */
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<h1>Book a Table</h1>
-<form method="POST">
+<div class="booking-form-container">
+  <h1>Book a Table</h1>
+  <form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+    <!-- Loop through each field manually to control layout -->
+    {% for field in form %}
+      <div class="form-group">
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.errors %}
+          <div class="text-danger">{{ field.errors }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <button type="submit">Submit Booking</button>
+  </form>
+</div>
 {% endblock %}
