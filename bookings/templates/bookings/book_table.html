@@ -24,7 +24,7 @@
   }
   /* Labels are left-aligned, take 40% of the width */
   .booking-form-container label {
-    flex: 0 0 40%;
+    flex: 0 0 25%;
     text-align: left;
     color: #f8f8f8; /* Off white text */
     margin-bottom: 0;
@@ -32,8 +32,8 @@
   }
   /* Input fields take the remaining 60% */
   .booking-form-container .form-control {
-    flex: 0 0 60%;
-    max-width: 60%;
+    flex: 0 0 75%;
+    max-width: 75%;
   }
   /* Capsule-shaped, olive green submit button */
   .booking-form-container button[type="submit"] {
@@ -47,6 +47,11 @@
     font-size: 1.1rem;
     font-weight: bold;
   }
+
+  input {
+  width: auto; /* Remove the fixed width */
+  flex-grow: 1; /* Allow the input to grow within the flex container */
+}
 </style>
 {% endblock %}
 

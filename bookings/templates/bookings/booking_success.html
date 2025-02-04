@@ -2,16 +2,58 @@
 
 {% block title %}Booking Confirmed{% endblock %}
 
+{% block extra_css %}
+<style>
+  /* Styles specific to the booking success page */
+
+  /* Container for the booking confirmation details */
+  .booking-success-container {
+    max-width: 600px;
+    margin: 80px auto;
+    background-color: #556B2F;  /* Same olive green as the submit button */
+    padding: 30px;
+    border: 1px solid goldenrod;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .booking-success-container h1 {
+    font-family: 'Playfair Display', serif;
+    color: #f8f8f8;
+    margin-bottom: 20px;
+  }
+  .booking-success-container p {
+    color: #f8f8f8;
+    font-size: 1.1rem;
+  }
+  /* List items to display booking details */
+  .booking-details {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    text-align: left;
+  }
+  .booking-details li {
+    padding: 8px 0;
+    border-bottom: 1px solid goldenrod;
+    color: #f8f8f8;
+  }
+  .booking-details li:last-child {
+    border-bottom: none;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<h1>Booking Confirmed!</h1>
-<p>Thank you for your booking. Here are your booking details:</p>
-<ul>
+<div class="booking-success-container">
+  <h1>Booking Confirmed!</h1>
+  <p>Your reservation at Coughlan's has been confirmed. Thank you for booking with us.</p>
+  <ul class="booking-details">
     <li><strong>Name:</strong> {{ booking.name }}</li>
     <li><strong>Email:</strong> {{ booking.email }}</li>
     <li><strong>Phone:</strong> {{ booking.phone }}</li>
     <li><strong>Date:</strong> {{ booking.date }}</li>
     <li><strong>Time:</strong> {{ booking.time }}</li>
-    <li><strong>Number of Guests:</strong> {{ booking.guests }}</li>
-</ul>
-<p>We look forward to welcoming you!</p>
+    <li><strong>Guests:</strong> {{ booking.guests }}</li>
+  </ul>
+</div>
 {% endblock %}
