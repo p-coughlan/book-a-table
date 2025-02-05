@@ -10,9 +10,11 @@ from django.core.mail import send_mail # import the send_mail function to send e
 from django.shortcuts import render, redirect, get_object_or_404 # import the get_object_or_404 function to get an object by ID or return a 404 error
 
 from django.contrib.admin.views.decorators import staff_member_required
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from .models import Booking  # Ensure Booking is imported
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
+
+
 
 def check_capacity(new_booking):
     """
@@ -135,27 +137,42 @@ def booking_list(request):
 def weekly_calendar(request):
     """
     Displays a weekly calendar view of bookings.
-    Only accessible by staff.
+    Only accessible by staff. Allows navigation to previous and next weeks.
+    The view checks for a GET parameter 'week_start' to determine the week to display (formatted as 'YYYY-MM-DD').
+    If provided, it parses that value to determine the starting Monday, if not, it defaults to the current week's Monday.
+    It then iterates over 7 days (Monday to Sunday), querying for bookings on each day and storing them in an ordered dictionary.
+    It also computes the previous and next week start dates (as strings) to help build navigation links in the template.
+    The view is decorated with @staff_member_required so only staff can access it.
     """
-    # Get today's date and calculate the start (Monday) of the current week.
-    today = date.today()
-    start_of_week = today - timedelta(days=today.weekday())
-    
-    # Create a dictionary to hold bookings per day (Monday to Sunday)
-    bookings_by_day = defaultdict(list)
-    
-    # Loop over 7 days from start_of_week
+    # Determine the week start from GET parameter if provided, otherwise use current week.
+    week_start_str = request.GET.get("week_start")
+    if week_start_str:
+        try:
+            week_start = datetime.strptime(week_start_str, "%Y-%m-%d").date()
+        except ValueError:
+            week_start = date.today() - timedelta(days=date.today().weekday())
+    else:
+        week_start = date.today() - timedelta(days=date.today().weekday())
+
+    # Create an ordered dictionary of bookings per day (Monday to Sunday)
+    bookings_by_day = OrderedDict()
     for i in range(7):
-        current_day = start_of_week + timedelta(days=i)
-        # Get all bookings for this day (order by time)
+        current_day = week_start + timedelta(days=i)
         daily_bookings = Booking.objects.filter(date=current_day).order_by('time')
         bookings_by_day[current_day] = daily_bookings
-    
+
+    # Calculate previous and next week start dates for navigation
+    previous_week = week_start - timedelta(days=7)
+    next_week = week_start + timedelta(days=7)
+
     context = {
-        'start_of_week': start_of_week,
+        'week_start': week_start,
         'bookings_by_day': bookings_by_day,
+        'previous_week': previous_week.strftime("%Y-%m-%d"),
+        'next_week': next_week.strftime("%Y-%m-%d"),
     }
     return render(request, 'bookings/weekly_calendar.html', context)
+
 
 def cancel_booking(request, booking_id):
     """
