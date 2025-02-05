@@ -1,22 +1,73 @@
-<!-- Template to update a booking -->
-<!-- Show the current booking details and a form to update the booking -->
-
 {% extends 'bookings/base.html' %}
 
-{% block title %}Update Booking{% endblock %}
+{% block title %}Update Your Booking{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/booking.css' %}">
+<style>
+  /* Additional tweaks specific to the update page */
+  .update-form-container {
+    max-width: 600px;
+    margin: 80px auto;
+    background: transparent;
+    padding: 30px;
+  }
+  .update-form-container h1 {
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #f8f8f8;
+  }
+  /* Extra styling for the confirm email field */
+  .update-form-container .confirm-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .update-form-container .confirm-group label {
+    width: 30%;
+    text-align: left;
+    color: #f8f8f8;
+    margin-bottom: 0;
+    font-weight: bold;
+  }
+  .update-form-container .confirm-group input {
+    width: 60% !important;
+  }
+</style>
+{% endblock %}
 
 {% block content %}
-<h1>Update Booking</h1>
-<p>
+<div class="update-form-container">
+  <h1>Update Your Booking</h1>
+  <p>
     Booking for <strong>{{ booking.date }}</strong> at <strong>{{ booking.time }}</strong> by <strong>{{ booking.name }}</strong>.
-</p>
-<form method="POST">
+  </p>
+  
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+  
+  <form method="POST">
     {% csrf_token %}
-    <!-- Display the booking form fields for update -->
-    {{ form.as_p }}
-    <!-- Field to confirm the customer's email -->
-    <label for="confirm_email">Confirm your email:</label>
-    <input type="email" name="confirm_email" required>
+    <!-- Loop through each form field -->
+    {% for field in form %}
+      <div class="form-group">
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.errors %}
+          <div class="text-danger">{{ field.errors }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <!-- Extra field for email confirmation -->
+    <div class="form-group confirm-group">
+      <label for="confirm_email">Confirm Email:</label>
+      <input type="email" name="confirm_email" class="form-control" placeholder="Enter your email" required>
+    </div>
     <button type="submit">Update Booking</button>
-</form>
+  </form>
+</div>
 {% endblock %}

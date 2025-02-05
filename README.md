@@ -92,6 +92,14 @@ ISSUES:
 Booking form was difficult to use with no guidance on date and time format
 I used placeholders and help text to guide user with the intention of creating a more user friendly UI further down the line
 
+Booking confirming when under or at capacity but unresponsive when over:
+Non-field error missing from template ,added:
+{% if form.non_field_errors %}
+  <div class="alert alert-danger">
+    {{ form.non_field_errors }}
+  </div>
+{% endif %}
+
 ---------------------------------------------------
 
 Specfics of Coughlan's table management. I need to keep this as simple as possible. 

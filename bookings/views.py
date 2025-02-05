@@ -229,3 +229,38 @@ def confirm_cancel(request, booking_id):
     # Render the confirmation page (GET request)
     return render(request, 'bookings/cancel_confirm.html', {'booking': booking})
 
+def update_booking(request, booking_id):
+    """
+    Allows a customer to modify/reschedule their booking after confirming their email.
+    The form is pre-populated with the existing booking data.
+    Retrieves the booking by ID.
+    On a POST request, it compares the submitted email with the booking's email.
+    If the email verification passes and the form is valid, it saves the updated booking and redirects to the booking success page.
+    On a GET request, it pre-populates the form with the current booking data.
+    """
+    booking = get_object_or_404(Booking, id=booking_id)
+    
+    # On POST, verify email and update booking
+    if request.method == 'POST':
+        # Assume the update form has an extra field 'confirm_email' for verification
+        confirm_email = request.POST.get('confirm_email')
+        if not confirm_email or confirm_email.lower() != booking.email.lower():
+            messages.error(request, "The email provided does not match our records.")
+        else:
+            form = BookingForm(request.POST, instance=booking)
+            if form.is_valid():
+                updated_booking = form.save()
+                messages.success(request, "Your booking has been updated successfully!")
+                # Optionally, send an email confirmation for the update here
+                return redirect('booking_success', booking_id=updated_booking.id)
+            else:
+                messages.error(request, "Please correct the errors below.")
+    else:
+        form = BookingForm(instance=booking)
+    
+    return render(request, 'bookings/update_booking.html', {
+        'form': form,
+        'booking': booking
+    })
+
+
