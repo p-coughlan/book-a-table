@@ -20,7 +20,7 @@ from django.views.generic import TemplateView # import the TemplateView class to
 
 
 # import the view functions from the bookings app
-from bookings.views import home, book_table, booking_success, available_timeslots, booking_list, cancel_booking, update_booking, cancel_lookup, confirm_cancel
+from bookings.views import home, book_table, booking_success, available_timeslots, booking_list, cancel_booking, update_booking, cancel_lookup, confirm_cancel, update_booking_lookup
 
 # define the URL patterns
 urlpatterns = [
@@ -42,4 +42,5 @@ urlpatterns = [
     # Cancel booking lookup page
     path('cancel-lookup/', cancel_lookup, name='cancel_lookup'),
     path('confirm-cancel/<int:booking_id>/', confirm_cancel, name='confirm_cancel'),
+    path('update-lookup/', update_booking_lookup, name='update_booking_lookup'),
 ]

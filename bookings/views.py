@@ -263,4 +263,23 @@ def update_booking(request, booking_id):
         'booking': booking
     })
 
+def update_booking_lookup(request):
+    """
+    Displays a form for users to look up their booking(s) by email.
+    If bookings are found, they are listed with links to update each booking.
+    """
+    bookings_found = None
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        if email:
+            bookings_found = Booking.objects.filter(email__iexact=email)
+            if not bookings_found:
+                messages.error(request, "No bookings found for that email address.")
+        else:
+            messages.error(request, "Please enter your email address.")
+    
+    return render(request, 'bookings/update_booking_lookup.html', {
+        'bookings_found': bookings_found
+    })
+
 

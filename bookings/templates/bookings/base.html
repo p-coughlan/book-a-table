@@ -86,12 +86,23 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'book_table' %}">Book a Table</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'available_timeslots' %}">Timeslots</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'booking_list' %}">View Bookings</a></li>
+          <!-- Bookings Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="bookingsDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Bookings
+            </a>
+            <div class="dropdown-menu" aria-labelledby="bookingsDropdown">
+              <a class="dropdown-item" href="{% url 'book_table' %}">Book a Table</a>
+              <a class="dropdown-item" href="{% url 'update_booking_lookup' %}">Update Booking</a>
+              <a class="dropdown-item" href="{% url 'cancel_lookup' %}">Cancel Booking</a>
+            </div>
+          </li>
+          <!-- Other navigation links can go here -->
         </ul>
       </div>
     </nav>
+    
     
     <!-- Main content wrapper that expands to fill available space -->
     <div class="content-wrapper">
