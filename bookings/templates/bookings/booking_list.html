@@ -5,18 +5,46 @@
 
 {% block title %}All Bookings{% endblock %}
 
+{% block extra_css %}
+<style>
+  /* Booking List Container styled similar to booking success */
+  .booking-list-container {
+    max-width: 600px;
+    margin: 80px auto;
+    background-color: #556B2F; /* Same olive green */
+    padding: 30px;
+    border: 1px solid goldenrod;
+    border-radius: 8px;
+    text-align: center;
+    color: #f8f8f8; /* Off white text */
+  }
+  /* Style the list of bookings */
+  .booking-list-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .booking-list-container li {
+    padding: 8px 0;
+    border-bottom: 1px solid goldenrod;
+  }
+  .booking-list-container li:last-child {
+    border-bottom: none;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<h1>All Bookings</h1>
-{% if bookings %}
-    <ul>
-        {% for booking in bookings %}
-            <li>
-                <strong>{{ booking.name }}</strong> - {{ booking.date }} at {{ booking.time }} 
-                ({{ booking.guests }} guests)
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No bookings available.</p>
-{% endif %}
+<div class="booking-list-container">
+  <h1>Bookings</h1>
+  <ul>
+    {% for booking in bookings %}
+      <li>
+        <strong>{{ booking.name }}</strong> - {{ booking.date }} at {{ booking.time }} ({{ booking.guests }} guests)
+      </li>
+    {% empty %}
+      <li>No bookings available.</li>
+    {% endfor %}
+  </ul>
+</div>
 {% endblock %}
