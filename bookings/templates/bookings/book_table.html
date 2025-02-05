@@ -60,6 +60,11 @@
   <h1>Book a Table</h1>
   <form method="POST">
     {% csrf_token %}
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
     <!-- Loop through each field manually to control layout -->
     {% for field in form %}
       <div class="form-group">

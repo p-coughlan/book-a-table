@@ -9,6 +9,33 @@ from django.contrib.admin.views.decorators import staff_member_required # import
 from django.core.mail import send_mail # import the send_mail function to send emails
 from django.shortcuts import render, redirect, get_object_or_404 # import the get_object_or_404 function to get an object by ID or return a 404 error
 
+from datetime import datetime, timedelta
+
+from datetime import datetime, timedelta
+from .models import Booking  # Ensure Booking is imported
+
+def check_capacity(new_booking):
+    """
+    For a given new_booking instance (unsaved), this function calculates
+    the total number of guests already reserved for bookings whose 2-hour window
+    overlaps with the new_booking's 2-hour window.
+    """
+    booking_date = new_booking.date
+    new_start = datetime.combine(booking_date, new_booking.time)
+    new_end = new_start + timedelta(hours=2)
+
+    # Get all bookings for that date
+    existing_bookings = Booking.objects.filter(date=booking_date)
+    total_reserved = 0
+
+    for booking in existing_bookings:
+        existing_start = datetime.combine(booking.date, booking.time)
+        existing_end = existing_start + timedelta(hours=2)
+        # Check if the new booking overlaps with the existing booking's 2-hour window:
+        if new_start < existing_end and existing_start < new_end:
+            total_reserved += booking.guests
+
+    return total_reserved
 
 
 def home(request):
@@ -22,8 +49,9 @@ def home(request):
 def book_table(request):
     """
     Displays the booking form and processes the form submission.
-    If the form is valid, the booking is saved to the database and a success message is displayed.
-    Sends a confirmation email to the customer.
+    If valid, checks capacity for a 2-hour window (80% of 50 seats, i.e. 40 seats).
+    If the new booking would exceed capacity, returns an error.
+    Otherwise, saves the booking, sends a confirmation email, and redirects.
     """
     initial_data = {}
     if 'time' in request.GET:
@@ -32,29 +60,44 @@ def book_table(request):
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
-            booking = form.save()
-            # Add a success message using the booking details
-            messages.success(request, f'Booking for {booking.date} at {booking.time} confirmed!')
-
-            # Send an email to the customer
+            # Get an unsaved booking instance
+            new_booking = form.save(commit=False)
+            
+            # Check capacity for the new booking's 2-hour window
+            total_reserved = check_capacity(new_booking)
+            allowed_capacity = 40  # 80% of 50 seats
+            
+            if total_reserved + new_booking.guests > allowed_capacity:
+                form.add_error(
+                    None,
+                    "Cannot accept booking: The requested time slot is nearly full. Please reduce the number of guests or try a different time."
+                )
+                return render(request, 'bookings/book_table.html', {'form': form})
+            
+            # Save the booking since capacity is sufficient
+            new_booking.save()
+            messages.success(request, f'Booking for {new_booking.date} at {new_booking.time} confirmed!')
+            
+            # Send a confirmation email to the customer
             send_mail(
                 subject="Your Booking Confirmation",
                 message=(
-                    f"Dear {booking.name},\n\n"
-                    f"Your booking for {booking.date} at {booking.time} is confirmed.\n"
-                    "We look forward to welcoming you at COUGHLAN'S!\n\n"
+                    f"Dear {new_booking.name},\n\n"
+                    f"Your booking for {new_booking.date} at {new_booking.time} is confirmed.\n"
+                    "We look forward to welcoming you at Coughlan's!\n\n"
                     "Thank you."
                 ),
                 from_email="noreply@coughlans.com",
-                recipient_list=[booking.email], # list containing the recipient's email address
+                recipient_list=[new_booking.email],
                 fail_silently=False,
             )
-            # Redirect to success page with the booking's ID included in the URL
-            return redirect('booking_success', booking_id=booking.id)
+            
+            return redirect('booking_success', booking_id=new_booking.id)
     else:
         form = BookingForm(initial=initial_data)
     
     return render(request, 'bookings/book_table.html', {'form': form})
+
 
 
 
@@ -145,4 +188,44 @@ def update_booking(request, booking_id):
     
     return render(request, 'bookings/update_booking.html', {'form': form, 'booking': booking})
 
+def cancel_lookup(request):
+    """
+    Displays a form for users to look up their bookings by email.
+    If bookings are found, they are listed with options to cancel.
+    """
+    bookings_found = None
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        # Optionally, you could add more criteria (like a booking reference)
+        if email:
+            bookings_found = Booking.objects.filter(email__iexact=email)
+            if not bookings_found:
+                messages.error(request, "No bookings found for that email address.")
+        else:
+            messages.error(request, "Please enter an email address.")
+    
+    return render(request, 'bookings/cancel_lookup.html', {
+        'bookings_found': bookings_found
+    })
+
+def confirm_cancel(request, booking_id):
+    """
+    Displays a confirmation page asking if the user really wants to cancel their booking.
+    If confirmed, the booking is deleted and a thank you message is displayed.
+    The view fetches the booking using booking_id.
+    On a POST request (i.e., when the user clicks the final cancel button), the booking is deleted and a success message is displayed.
+    The user is then redirected to the homepage.
+    On a GET request, the view renders the confirmation page.
+    """
+    booking = get_object_or_404(Booking, id=booking_id)
+    
+    if request.method == 'POST':
+        # Delete the booking and set a success message
+        booking.delete()
+        messages.success(request, "Thanks, we hope to see you soon at Coughlan's!")
+        # Optionally, redirect to the homepage or a dedicated cancellation success page
+        return redirect('home')
+    
+    # Render the confirmation page (GET request)
+    return render(request, 'bookings/cancel_confirm.html', {'booking': booking})
 

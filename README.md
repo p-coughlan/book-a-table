@@ -91,3 +91,25 @@ Display messages in the Base Template
 ISSUES:
 Booking form was difficult to use with no guidance on date and time format
 I used placeholders and help text to guide user with the intention of creating a more user friendly UI further down the line
+
+---------------------------------------------------
+
+Specfics of Coughlan's table management. I need to keep this as simple as possible. 
+Seating capacity: 50
+Open for lunch: 11am to 3pm
+Open for dinner: 5pm to 9pm
+The restaurant bar is open 11am to 11pm but the seating times will be in 2 sittings: 
+What is the most effective way to manage these tables at an 80% capacity to allow for walk-in diners?
+
+Define Total Capacity and Allowed Reservation Capacity:
+
+The restaurant has a total capacity of 50 seats.
+For reservations, only 80% (i.e. 40 seats) is available.
+Each booking occupies a 2‑hour window (e.g., a booking at 12:00 occupies 12:00–14:00).
+When a new booking is made, you need to check for overlapping bookings (on the same date) whose 2‑hour windows overlap the new booking’s window.
+If the sum of guests from overlapping bookings plus the new booking’s guests exceeds 40, you reject the booking.
+
+* Create a Helper Function to Check Capacity 
+* Update book_table View to Use the New Capacity Check
+
+---------------------------------------------------

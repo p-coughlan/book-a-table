@@ -1,0 +1,72 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %}Cancel Booking Lookup{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* Optional: Additional styles specific to the lookup page */
+  .lookup-container {
+    max-width: 600px;
+    margin: 80px auto;
+    background-color: #556B2F;
+    padding: 30px;
+    border: 1px solid goldenrod;
+    border-radius: 8px;
+    text-align: center;
+    color: #f8f8f8;
+  }
+  .lookup-container form {
+    margin-bottom: 30px;
+  }
+  .lookup-container input[type="email"] {
+    width: 80%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  .lookup-container button {
+    margin-top: 10px;
+    width: 100%;
+    background-color: #556B2F;
+    color: white;
+    border: 1px solid goldenrod;
+    border-radius: 50px;
+    padding: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+  .booking-item {
+    text-align: left;
+    padding: 10px 0;
+    border-bottom: 1px solid goldenrod;
+  }
+  .booking-item:last-child {
+    border-bottom: none;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="lookup-container">
+  <h1>Lookup Your Booking</h1>
+  <p>Enter your email address to retrieve your booking(s).</p>
+  <form method="POST">
+    {% csrf_token %}
+    <input type="email" name="email" placeholder="Your email address" required>
+    <button type="submit">Find My Booking</button>
+  </form>
+  
+  {% if bookings_found %}
+    <h2>Your Bookings</h2>
+    <ul>
+      {% for booking in bookings_found %}
+        <li class="booking-item">
+          <strong>{{ booking.name }}</strong> - {{ booking.date }} at {{ booking.time }} ({{ booking.guests }} guests)
+          <!-- Link to cancel this booking -->
+          <a href="{% url 'confirm_cancel' booking.id %}" class="btn btn-danger btn-sm">Cancel</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>
+{% endblock %}

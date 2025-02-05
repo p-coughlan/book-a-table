@@ -1,0 +1,54 @@
+<!-- The template extends the base layout -->
+<!-- It uses a container styled similarly to the booking form and booking success pages. -->
+<!-- When the button is clicked, the form is submitted (POST) and processed by the view. -->
+{% extends 'bookings/base.html' %}
+
+{% block title %}Confirm Cancellation{% endblock %}
+
+{% block extra_css %}
+
+<style>
+  /* Container styling similar to other booking pages */
+  .cancel-confirm-container {
+    max-width: 600px;
+    margin: 80px auto;
+    background-color: #556B2F; /* Same olive green */
+    padding: 30px;
+    border: 1px solid goldenrod;
+    border-radius: 8px;
+    text-align: center;
+    color: #f8f8f8; /* Off white text */
+  }
+  .cancel-confirm-container h1 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 20px;
+  }
+  .cancel-confirm-container p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+  }
+  /* Final cancel button styling: red and capsule shaped */
+  .cancel-confirm-container button {
+    display: block;
+    width: 100%;
+    background-color: #c82333; /* Bootstrap's danger red */
+    color: white;
+    border: 1px solid goldenrod;
+    border-radius: 50px;
+    padding: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cancel-confirm-container">
+  <h1>Confirm Cancellation</h1>
+  <p>Are you sure you want to cancel your booking?</p>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit">Cancel Booking</button>
+  </form>
+</div>
+{% endblock %}
