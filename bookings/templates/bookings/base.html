@@ -98,12 +98,14 @@
               <a class="dropdown-item" href="{% url 'cancel_lookup' %}">Cancel Booking</a>
             </div>
           </li>
-          <!-- Other navigation links can go here -->
+          <!-- Add an Admin Login link outside the dropdown -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin:login' %}">Admin</a>
+          </li>
         </ul>
       </div>
     </nav>
-    
-    
+        
     <!-- Main content wrapper that expands to fill available space -->
     <div class="content-wrapper">
       <!-- Display Django messages if any -->

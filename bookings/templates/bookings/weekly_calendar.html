@@ -1,0 +1,55 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %}Weekly Calendar{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* Simple table styling for the weekly calendar */
+  .calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  .calendar-table th, .calendar-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .calendar-table th {
+    background-color: #f8f8f8;
+  }
+  .booking-item {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Weekly Calendar</h1>
+<p>Bookings from {{ start_of_week }} to {{ start_of_week|add:"6 days" }}</p>
+
+<table class="calendar-table">
+  <tr>
+    {% for day in bookings_by_day.keys|dictsort:"0" %}
+      <th>{{ day|date:"l, M d" }}</th>
+    {% endfor %}
+  </tr>
+  <tr>
+    {% for day, bookings in bookings_by_day.items|dictsort:"0" %}
+      <td>
+        {% if bookings %}
+          {% for booking in bookings %}
+            <div class="booking-item">
+              <strong>{{ booking.name }}</strong> at {{ booking.time }} ({{ booking.guests }} guests)
+            </div>
+          {% endfor %}
+        {% else %}
+          <em>No bookings</em>
+        {% endif %}
+      </td>
+    {% endfor %}
+  </tr>
+</table>
+{% endblock %}

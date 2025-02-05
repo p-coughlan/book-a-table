@@ -9,10 +9,10 @@ from django.contrib.admin.views.decorators import staff_member_required # import
 from django.core.mail import send_mail # import the send_mail function to send emails
 from django.shortcuts import render, redirect, get_object_or_404 # import the get_object_or_404 function to get an object by ID or return a 404 error
 
-from datetime import datetime, timedelta
-
+from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime, timedelta
 from .models import Booking  # Ensure Booking is imported
+from collections import defaultdict
 
 def check_capacity(new_booking):
     """
@@ -130,6 +130,32 @@ def booking_list(request):
     """
     bookings = Booking.objects.all().order_by('-id')
     return render(request, 'bookings/booking_list.html', {'bookings': bookings})
+
+@staff_member_required
+def weekly_calendar(request):
+    """
+    Displays a weekly calendar view of bookings.
+    Only accessible by staff.
+    """
+    # Get today's date and calculate the start (Monday) of the current week.
+    today = date.today()
+    start_of_week = today - timedelta(days=today.weekday())
+    
+    # Create a dictionary to hold bookings per day (Monday to Sunday)
+    bookings_by_day = defaultdict(list)
+    
+    # Loop over 7 days from start_of_week
+    for i in range(7):
+        current_day = start_of_week + timedelta(days=i)
+        # Get all bookings for this day (order by time)
+        daily_bookings = Booking.objects.filter(date=current_day).order_by('time')
+        bookings_by_day[current_day] = daily_bookings
+    
+    context = {
+        'start_of_week': start_of_week,
+        'bookings_by_day': bookings_by_day,
+    }
+    return render(request, 'bookings/weekly_calendar.html', context)
 
 def cancel_booking(request, booking_id):
     """

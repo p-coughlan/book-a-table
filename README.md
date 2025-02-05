@@ -88,7 +88,8 @@ Display messages in the Base Template
 
 ---------------------------------------------------
 
-ISSUES:
+ISSUES AND IMPROVEMENTS:
+
 Booking form was difficult to use with no guidance on date and time format
 I used placeholders and help text to guide user with the intention of creating a more user friendly UI further down the line
 
@@ -99,6 +100,12 @@ Non-field error missing from template ,added:
     {{ form.non_field_errors }}
   </div>
 {% endif %}
+
+Admin Login:
+At present, staff are sent to directly to the Django Admin Panel.
+A custom view would be better.
+Create custom view and link to that instead. 
+
 
 ---------------------------------------------------
 
