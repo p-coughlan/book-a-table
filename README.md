@@ -106,6 +106,10 @@ At present, staff are sent to directly to the Django Admin Panel.
 A custom view would be better.
 Create custom view and link to that instead. 
 
+Update booking: 
+This could be problematic for the restaurant at late notice?
+Implement a 24 hr rule in the booking & update functions.
+
 
 ---------------------------------------------------
 
