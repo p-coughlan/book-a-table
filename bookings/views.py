@@ -17,7 +17,9 @@ from .forms import ReviewForm
 from .models import Review
 
 def home(request):
-    approved_reviews = Review.objects.filter(approved=True).order_by('-created_at')
+    
+    approved_reviews = Review.objects.filter(approved=True).order_by('-created_at') # Get all approved reviews
+    print ("approved reviews = " ,approved_reviews) # Print the approved reviews to the console
     return render(request, 'bookings/home.html', {
         'approved_reviews': approved_reviews,
         # any other context variables
@@ -47,11 +49,11 @@ def check_capacity(new_booking):
     return total_reserved
 
 
-def home(request):
-    """
-    Renders the homepage with a link to the booking form.
-    """
-    return render(request, 'bookings/home.html')
+#def home(request):
+#    """
+#    Renders the homepage with a link to the booking form.
+#    """
+#    return render(request, 'bookings/home.html')
 
 # After saving the booking, we call messages.success(...) to create a success message.
 # This message will be available in the next view rendered after the redirect.
