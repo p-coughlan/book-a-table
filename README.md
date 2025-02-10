@@ -108,7 +108,14 @@ Create custom view and link to that instead.
 
 Update booking: 
 This could be problematic for the restaurant at late notice?
-Implement a 24 hr rule in the booking & update functions.
+Implement a 24 hr rule in the booking & update functions?
+
+Admin calendar list view:
+This should include the option to update/delete outside of the Django admin panel.
+At present the site just includes a 'list view'. 
+The view could incorporate a delete and admin button.
+
+
 
 
 ---------------------------------------------------
@@ -127,7 +134,6 @@ For reservations, only 80% (i.e. 40 seats) is available.
 Each booking occupies a 2‑hour window (e.g., a booking at 12:00 occupies 12:00–14:00).
 When a new booking is made, you need to check for overlapping bookings (on the same date) whose 2‑hour windows overlap the new booking’s window.
 If the sum of guests from overlapping bookings plus the new booking’s guests exceeds 40, you reject the booking.
-
 * Create a Helper Function to Check Capacity 
 * Update book_table View to Use the New Capacity Check
 
