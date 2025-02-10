@@ -13,7 +13,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from datetime import date, datetime, timedelta
 from .models import Booking  # Ensure Booking is imported
 from collections import defaultdict, OrderedDict
-
+from .forms import ReviewForm
 
 
 def check_capacity(new_booking):
@@ -325,4 +325,18 @@ def update_booking_lookup(request):
         'bookings_found': bookings_found
     })
 
+def submit_review(request):
+    """
+    Allows users to submit a review.
+    Reviews will be pending approval until an admin approves them.
+    """
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Thank you for your review! It will appear on our site once approved.")
+            return redirect('home')  # or any appropriate page
+    else:
+        form = ReviewForm()
+    return render(request, 'bookings/submit_review.html', {'form': form})
 

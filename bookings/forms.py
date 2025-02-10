@@ -1,5 +1,6 @@
 from django import forms
-from .models import Booking
+from .models import Booking, Review
+
 
 class BookingForm(forms.ModelForm):
     # Override the date and time fields to enforce custom formats
@@ -27,3 +28,15 @@ class BookingForm(forms.ModelForm):
             'date': 'Enter the booking date in dd-mm-yyyy format (e.g. 05-08-2025).',
             'time': 'Enter the booking time in HH:MM format (e.g. 18:00).',
         }
+
+class ReviewForm(forms.ModelForm):
+    """
+    A form for users to submit reviews.
+    """
+    class Meta:
+        model = Review
+        fields = ['name', 'email', 'comment', 'rating']
+        widgets = {
+            'comment': forms.Textarea(attrs={'rows': 4}),
+            'rating': forms.NumberInput(attrs={'min': 1, 'max': 5}),
+        }        
