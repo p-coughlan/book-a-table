@@ -1,3 +1,5 @@
+{% load static %}
+
 {# bookings/templates/bookings/review_ticker.html #}
 <style>
   .review-ticker {
@@ -8,14 +10,22 @@
       min-height: 50px; /* Reserve space */
   }
   .review-item {
-      margin-bottom: 10px;
+      display: none;
+  }
+  .review-item:first-child {
+      display: block;
   }
 </style>
 
-<div id="review-ticker" class="review-ticker">
+<div id="review-ticker" class="review-ticker"> 
   {% for review in reviews %}
     <div class="review-item">
       <span>"{{ review.comment }}" - {{ review.name }}</span>
     </div>
   {% endfor %}
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/review_ticker.js' %}"></script>
+
+

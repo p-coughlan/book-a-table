@@ -138,3 +138,18 @@ If the sum of guests from overlapping bookings plus the new booking’s guests e
 * Update book_table View to Use the New Capacity Check
 
 ---------------------------------------------------
+
+review_ticker
+    The script is designed to be as simple as possible, and should work with any number of reviews. It's based on jQuery, so you'll need to include the jQuery library in your page in order for it to work. 
+    The script works by hiding all the reviews except the first one, then fading out the current review and fading in the next one after a delay. The delay between reviews is set to 3 seconds (3000ms), but you can adjust this by changing the value in the  setTimeout  call at the end of the  cycleReviews  function. 
+    The script will cycle through the reviews indefinitely, and will loop back to the first review after the last one. If you want to change this behavior, you can modify the script accordingly. 
+    The script is designed to be self-contained and should work out of the box with minimal configuration. You can customize the appearance of the reviews by adding CSS styles to the  review-item  class in your stylesheet. 
+    I hope this helps! Let me know if you have any questions. 
+    Thanks for contributing an answer to Webmasters Stack Exchange! 
+    To learn more, see our  tips on writing great answers. 
+    
+                                Sign up using Email and Password
+                            
+    To subscribe to thisjson RSS feed, copy and paste this URL into your RSS reader. 
+    
+                            By clicking “Accept all cookies”, you agree Stack Exchange can store cookies on your device and disclose information in accordance with our  Cookie Policy.

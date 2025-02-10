@@ -17,12 +17,14 @@ from .forms import ReviewForm
 from .models import Review
 
 def home(request):
-    
-    approved_reviews = Review.objects.filter(approved=True).order_by('-created_at') # Get all approved reviews
+    """
+    Renders the homepage
+    Displays the latest approved reviews
+    """
+    approved_reviews = Review.objects.filter(approved=True).order_by('-created_at') # Get all approved reviews from the database
     print ("approved reviews = " ,approved_reviews) # Print the approved reviews to the console
-    return render(request, 'bookings/home.html', {
-        'approved_reviews': approved_reviews,
-        # any other context variables
+    return render(request, 'bookings/home.html', { # Render the home.html template
+        'approved_reviews': approved_reviews, # Pass the approved reviews to the template
     })
 
 def check_capacity(new_booking):
