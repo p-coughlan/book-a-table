@@ -4,71 +4,56 @@
 
 {% block extra_css %}
 <style>
-  /* Simple table styling for the weekly calendar */
-  .calendar-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+  /* Container for the weekly calendar, matching other booking pages */
+  .calendar-container {
+      max-width: 600px;
+      margin: 80px auto;
+      background-color: #556B2F; /* Olive green */
+      padding: 30px;
+      border: 1px solid goldenrod;
+      border-radius: 8px;
+      color: #f8f8f8; /* Off white text */
   }
-  .calendar-table th, .calendar-table td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    vertical-align: top;
+  /* Style each day block */
+  .calendar-day {
+      margin-bottom: 20px;
   }
-  .calendar-table th {
-    background-color: #f8f8f8;
-    text-align: center;
+  .calendar-day h2 {
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
   }
+  /* Style the booking items for each day */
   .booking-item {
-    font-size: 0.9rem;
-    margin-bottom: 5px;
+      padding: 5px 0;
+      border-bottom: 1px solid goldenrod;
+      font-size: 0.9rem;
   }
-  .navigation-links {
-    margin-top: 20px;
-    text-align: center;
-  }
-  .navigation-links a {
-    margin: 0 10px;
-    text-decoration: none;
-    color: #556B2F;
-    font-weight: bold;
+  .booking-item:last-child {
+      border-bottom: none;
   }
 </style>
 {% endblock %}
 
 {% block content %}
-<h1>Weekly Calendar</h1>
-<p>
-  Bookings for the week starting on {{ week_start|date:"F j, Y" }}
-</p>
-
-<div class="navigation-links">
-  <a href="?week_start={{ previous_week }}">&#8592; Previous Week</a>
-  <a href="?week_start={{ next_week }}">Next Week &#8594;</a>
+<div class="calendar-container">
+  <h1>Weekly Calendar</h1>
+  <p>Bookings for the week starting on {{ week_start|date:"F j, Y" }}</p>
+  
+  {% for day, bookings in bookings_by_day.items %}
+    <div class="calendar-day">
+      <h2>{{ day|date:"l, M d" }}</h2>
+      {% if bookings %}
+        {% for booking in bookings %}
+          <div class="booking-item">
+            <strong>{{ booking.name }}</strong> at {{ booking.time|time:"H:i" }} 
+            ({{ booking.guests }} guests)
+          </div>
+        {% endfor %}
+      {% else %}
+        <p><em>No bookings</em></p>
+      {% endif %}
+    </div>
+  {% endfor %}
 </div>
-
-<table class="calendar-table">
-  <tr>
-    {% for day in bookings_by_day.keys %}
-      <th>{{ day|date:"l, M d" }}</th>
-    {% endfor %}
-  </tr>
-  <tr>
-    {% for day, bookings in bookings_by_day.items %}
-      <td>
-        {% if bookings %}
-          {% for booking in bookings %}
-            <div class="booking-item">
-              <strong>{{ booking.name }}</strong><br>
-              {{ booking.time|time:"H:i" }}<br>
-              {{ booking.guests }} guest{% if booking.guests|add:"-1" %}s{% endif %}
-            </div>
-          {% endfor %}
-        {% else %}
-          <em>No bookings</em>
-        {% endif %}
-      </td>
-    {% endfor %}
-  </tr>
-</table>
 {% endblock %}

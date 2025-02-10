@@ -5,16 +5,50 @@
 {% block extra_css %}
 
 <style>
+  /* Container styling for the review form */
   .review-form-container {
     max-width: 600px;
     margin: 80px auto;
-    background: transparent;
+    background-color: #556B2F; /* Olive green background */
     padding: 30px;
+    border: 1px solid goldenrod;
+    border-radius: 8px;
+    text-align: center;
+    color: #f8f8f8; /* Off white text */
   }
   .review-form-container h1 {
-    text-align: center;
+    font-family: 'Playfair Display', serif;
     margin-bottom: 20px;
+  }
+  /* Style each form group for a two-column layout */
+  .review-form-container .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  /* Labels: take 30% of the width, left-aligned */
+  .review-form-container .form-group label {
+    width: 30%;
+    text-align: left;
+    font-weight: bold;
     color: #f8f8f8;
+    margin-bottom: 0;
+  }
+  /* Input fields: take the remaining 60% */
+  .review-form-container .form-group .form-control {
+    width: 60% !important;
+  }
+  /* Submit button styling: capsule-shaped, matching the other forms */
+  .review-form-container button[type="submit"] {
+    display: block;
+    width: 100%;
+    background-color: #556B2F;
+    color: white;
+    border: 1px solid goldenrod;
+    border-radius: 50px;
+    padding: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
   }
 </style>
 {% endblock %}
@@ -24,9 +58,14 @@
   <h1>Submit a Review</h1>
   <form method="POST">
     {% csrf_token %}
+    <!-- Display non-field errors if any -->
     {% if form.non_field_errors %}
-      <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+      <div class="alert alert-danger">
+        {{ form.non_field_errors }}
+      </div>
     {% endif %}
+    
+    <!-- Loop through each form field for individual styling -->
     {% for field in form %}
       <div class="form-group">
         {{ field.label_tag }}
@@ -36,7 +75,8 @@
         {% endif %}
       </div>
     {% endfor %}
-    <button type="submit" class="btn btn-primary btn-block">Submit Review</button>
+    
+    <button type="submit">Submit Review</button>
   </form>
 </div>
 {% endblock %}
