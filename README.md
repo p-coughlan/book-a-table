@@ -153,3 +153,19 @@ review_ticker
     To subscribe to thisjson RSS feed, copy and paste this URL into your RSS reader. 
     
                             By clicking “Accept all cookies”, you agree Stack Exchange can store cookies on your device and disclose information in accordance with our  Cookie Policy.
+
+---------------------------------------------------
+requirements.txt
+
+(venv) patrickcoughlan@p book-a-table % pip list
+Package             Version
+------------------- -------
+asgiref             3.8.1
+Django              4.2.18
+django-extensions   3.2.3
+djangorestframework 3.15.2
+pip                 25.0.1
+setuptools          58.0.4
+sqlparse            0.5.3
+typing_extensions   4.12.2
+---------------------------------------------------

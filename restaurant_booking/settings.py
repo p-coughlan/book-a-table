@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bookings',
+    'django_extensions', # Add the django_extensions app to the list of installed apps
 ]
 
 MIDDLEWARE = [
