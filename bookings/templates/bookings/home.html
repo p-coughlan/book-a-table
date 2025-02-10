@@ -68,4 +68,9 @@
     </div>
   </div>
 </section>
+
+<p>Approved Reviews: {{ approved_reviews|length }}</p>
+
+{% include 'bookings/review_ticker.html' with reviews=approved_reviews %}
+
 {% endblock %}

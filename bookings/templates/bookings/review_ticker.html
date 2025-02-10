@@ -1,0 +1,21 @@
+{# bookings/templates/bookings/review_ticker.html #}
+<style>
+  .review-ticker {
+      font-family: 'Playfair Display', serif;
+      text-align: center;
+      padding: 20px;
+      color: #f8f8f8;
+      min-height: 50px; /* Reserve space */
+  }
+  .review-item {
+      margin-bottom: 10px;
+  }
+</style>
+
+<div id="review-ticker" class="review-ticker">
+  {% for review in reviews %}
+    <div class="review-item">
+      <span>"{{ review.comment }}" - {{ review.name }}</span>
+    </div>
+  {% endfor %}
+</div>

@@ -78,7 +78,7 @@
   <body>
     <!-- Fixed Navbar at the top using Bootstrap classes -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="{% url 'home' %}"><span> &#9752; </span>Coughlan's</a>
+      <a class="navbar-brand" href="{% url 'home' %}"><span>&#9752;</span> Coughlan's</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
               aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -96,20 +96,23 @@
               <a class="dropdown-item" href="{% url 'book_table' %}">Book a Table</a>
               <a class="dropdown-item" href="{% url 'update_booking_lookup' %}">Update Booking</a>
               <a class="dropdown-item" href="{% url 'cancel_lookup' %}">Cancel Booking</a>
-              <!-- Weekly calendar link - accesible only to staff -->
-               <!-- wrapped in an if statement to check if the user is authenticated and is_staff -->
               {% if request.user.is_authenticated and request.user.is_staff %}
-              <a class="dropdown-item" href="{% url 'weekly_calendar' %}">Calendar</a>
+                <a class="dropdown-item" href="{% url 'weekly_calendar' %}">Calendar</a>
               {% endif %}
             </div>
           </li>
-          <!-- Add an Admin Login link outside the dropdown -->
+          <!-- Admin Login Link -->
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admin:login' %}">Admin</a>
+          </li>
+          <!-- New Review Link -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'submit_review' %}">Leave a Review</a>
           </li>
         </ul>
       </div>
     </nav>
+    
         
     <!-- Main content wrapper that expands to fill available space -->
     <div class="content-wrapper">

@@ -1,0 +1,42 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %}Submit a Review{% endblock %}
+
+{% block extra_css %}
+
+<style>
+  .review-form-container {
+    max-width: 600px;
+    margin: 80px auto;
+    background: transparent;
+    padding: 30px;
+  }
+  .review-form-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #f8f8f8;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="review-form-container">
+  <h1>Submit a Review</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+    {% endif %}
+    {% for field in form %}
+      <div class="form-group">
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.errors %}
+          <div class="text-danger">{{ field.errors }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary btn-block">Submit Review</button>
+  </form>
+</div>
+{% endblock %}

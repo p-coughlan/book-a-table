@@ -14,7 +14,14 @@ from datetime import date, datetime, timedelta
 from .models import Booking  # Ensure Booking is imported
 from collections import defaultdict, OrderedDict
 from .forms import ReviewForm
+from .models import Review
 
+def home(request):
+    approved_reviews = Review.objects.filter(approved=True).order_by('-created_at')
+    return render(request, 'bookings/home.html', {
+        'approved_reviews': approved_reviews,
+        # any other context variables
+    })
 
 def check_capacity(new_booking):
     """
@@ -339,4 +346,12 @@ def submit_review(request):
     else:
         form = ReviewForm()
     return render(request, 'bookings/submit_review.html', {'form': form})
+
+def review_ticker(request):
+    """
+    Retrieves approved reviews to be displayed on a ticker.
+    """
+    reviews = Review.objects.filter(approved=True).order_by('-created_at')
+    return render(request, 'bookings/review_ticker.html', {'reviews': reviews})
+
 

@@ -20,7 +20,7 @@ from django.views.generic import TemplateView # import the TemplateView class to
 
 
 # import the view functions from the bookings app
-from bookings.views import home, book_table, booking_success, available_timeslots, booking_list, cancel_booking, update_booking, cancel_lookup, confirm_cancel, update_booking_lookup, weekly_calendar
+from bookings.views import home, book_table, booking_success, available_timeslots, booking_list, cancel_booking, update_booking, cancel_lookup, confirm_cancel, update_booking_lookup, weekly_calendar, submit_review, review_ticker
 
 # define the URL patterns
 urlpatterns = [
@@ -32,7 +32,6 @@ urlpatterns = [
     # Updated URL pattern for booking success with booking_id
     path('success/<int:booking_id>/', booking_success, name='booking_success'),
     path('bookings/', booking_list, name='booking_list'),
-    path('cancel/<int:booking_id>/', cancel_booking, name='cancel_booking'),
     path('update/<int:booking_id>/', update_booking, name='update_booking'),
     # Sample menu pages using TemplateView
     path('lunch-menu/', TemplateView.as_view(template_name="bookings/lunch_menu.html"), name='lunch_menu'),
@@ -44,4 +43,6 @@ urlpatterns = [
     path('confirm-cancel/<int:booking_id>/', confirm_cancel, name='confirm_cancel'),
     path('update-lookup/', update_booking_lookup, name='update_booking_lookup'),
     path('weekly-calendar/', weekly_calendar, name='weekly_calendar'),
+    path('submit-review/', submit_review, name='submit_review'),
+    path('review-ticker/', review_ticker, name='review_ticker'),
 ]
